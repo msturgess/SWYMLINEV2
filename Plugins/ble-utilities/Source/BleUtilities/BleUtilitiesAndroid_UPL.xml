@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (c) 2019 Nineva Studios
+-->
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <init>
+		<log text="[BleUtilities] AndroidBLE initialization"/>
+	</init>
+
+	<prebuildCopies>
+		<copyDir src="$S(PluginDir)/Private/Java" dst="$S(BuildDir)/src/com/ninevastudios/androidbleunrealapi" />
+	</prebuildCopies>
+
+	<!-- optional additions to proguard -->
+	<proguardAdditions>
+		<insert>
+			-keep public class com.ninevastudios.androidbleunrealapi.** {
+			public protected *;
+			}
+		</insert>
+	</proguardAdditions>
+
+	<!-- optional updates applied to AndroidManifest.xml -->
+	<androidManifestUpdates>
+		<!-- Add permissions -->
+		<addPermission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+		<addPermission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+		<addPermission android:name="android.permission.BLUETOOTH_CONNECT" />
+		<addPermission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+		<addPermission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+		<addPermission android:name="android.permission.BLUETOOTH_SCAN" />
+		<addPermission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+		<addFeature android:name="android.hardware.bluetooth" android:required="true"/>
+		<addFeature android:name="android.hardware.bluetooth_le" android:required="true"/>
+		
+	</androidManifestUpdates>
+
+	<buildGradleAdditions>
+
+	</buildGradleAdditions>
+
+</root>

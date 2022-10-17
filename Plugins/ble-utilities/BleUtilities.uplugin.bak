@@ -1,0 +1,26 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.2.0",
+	"FriendlyName": "BLE Utilities",
+	"Description": "BLE Utilities is a collection of native methods for your Unreal Engine project that works with BLE devices.",
+	"Category": "Code Plugins",
+	"CreatedBy": "Nineva Studios",
+	"CreatedByURL": "https://ninevastudios.com/",
+	"DocsURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/9ad1594e91da4da1aa72fb617697c9f7",
+	"EngineVersion": "4.26.2",
+	"SupportURL": "mailto:support@ninevastudios.com",
+	"EnabledByDefault": true,
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "BleUtilities",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [ "Win64", "Win32", "Mac", "IOS", "Android" ]
+		}
+	]
+}
