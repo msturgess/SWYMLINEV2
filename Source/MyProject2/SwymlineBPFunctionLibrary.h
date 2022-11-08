@@ -35,5 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static bool ConvertStringToInput(FString InData, FSwimInputData& OutInputData);
 
+	UFUNCTION(BlueprintCallable)
+	static bool ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData);
 
+	UFUNCTION(BlueprintCallable)
+	static TArray<uint8> ConvertStringToBytes(FString InString);
 };

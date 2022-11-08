@@ -79,4 +79,47 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 	OutInputData.Gyrometer.Z = floatData[5];
 
 	return true;
-}	
+}
+
+bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData)
+{
+	if (InBytes.Num() <= 0)
+		return false;
+
+	uint8* byteArr = new uint8[InBytes.Num()];
+	
+	for (int i = 0; i < InBytes.Num(); i++)
+	{
+		byteArr[i] = InBytes[i];
+	}
+
+	FString byteAsStr = FString::FromBlob(byteArr, sizeof(byteArr));
+
+	bool success = ConvertStringToInput(byteAsStr, OutInputData);
+
+	delete byteArr;
+
+	return success;
+}
+
+TArray<uint8> USwymlineBPFunctionLibrary::ConvertStringToBytes(FString InString)
+{
+	int arrSize = sizeof(InString);
+	uint8* byteArr = new uint8[arrSize];
+
+	TArray<uint8> outBytes;
+
+	if (!FString::ToBlob(InString, byteArr, arrSize))
+	{
+		delete byteArr;
+		return outBytes;
+	}
+
+	for (int i = 0; i < arrSize; i++)
+	{
+		outBytes.Add(byteArr[i]);
+	}
+
+	delete byteArr;
+	return outBytes;
+}
