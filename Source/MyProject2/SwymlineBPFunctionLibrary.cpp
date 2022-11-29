@@ -80,20 +80,20 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 	return true;
 }
-//
-//FString BytesToStringFixed(const uint8* In, int32 Count)
-//{
-//	FString Broken = BytesToString(In, Count);
-//	FString Fixed;
-//
-//	for (int i = 0; i < Broken.Len(); i++)
-//	{
-//		const TCHAR c = Broken - 1;
-//		Fixed.AppendChar(c);
-//	}
-//
-//	return Fixed;
-//}
+
+FString BytesToStringFixed(const uint8* In, int32 Count)
+{
+	FString Broken = BytesToString(In, Count);
+	FString Fixed;
+
+	for (int i = 0; i < Broken.Len(); i++)
+	{
+		const TCHAR c = Broken[i] - 1;
+		Fixed.AppendChar(c);
+	}
+
+	return Fixed;
+}
 
 bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData)
 {
@@ -111,7 +111,7 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 
 	UE_LOG(LogTemp, Display, TEXT("Allocated Byte Array"));
 
-	FString byteAsStr = BytesToString(byteArr, sizeof(byteArr));
+	FString byteAsStr = BytesToStringFixed(byteArr, sizeof(byteArr));
 
 	UE_LOG(LogTemp, Display, TEXT("%s"), *byteAsStr);
 
@@ -126,7 +126,7 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 
 TArray<uint8> USwymlineBPFunctionLibrary::ConvertStringToBytes(FString InString)
 {
-	int arrSize = sizeof(InString);
+	int arrSize = sizeof(InString) * 4;
 	uint8* byteArr = new uint8[arrSize];
 
 	TArray<uint8> outBytes;
