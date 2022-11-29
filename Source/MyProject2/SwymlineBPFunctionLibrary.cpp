@@ -97,7 +97,7 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 
 	UE_LOG(LogTemp, Display, TEXT("Allocated Byte Array"));
 
-	FString byteAsStr = FString::FromBlob(byteArr, sizeof(byteArr));
+	FString byteAsStr = BytesToString(byteArr, sizeof(byteArr));
 
 	UE_LOG(LogTemp, Display, TEXT("%s"), *byteAsStr);
 
