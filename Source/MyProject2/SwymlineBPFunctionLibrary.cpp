@@ -80,6 +80,20 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 	return true;
 }
+//
+//FString BytesToStringFixed(const uint8* In, int32 Count)
+//{
+//	FString Broken = BytesToString(In, Count);
+//	FString Fixed;
+//
+//	for (int i = 0; i < Broken.Len(); i++)
+//	{
+//		const TCHAR c = Broken - 1;
+//		Fixed.AppendChar(c);
+//	}
+//
+//	return Fixed;
+//}
 
 bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData)
 {
