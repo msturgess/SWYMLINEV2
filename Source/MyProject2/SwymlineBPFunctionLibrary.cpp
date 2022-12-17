@@ -34,7 +34,10 @@ bool USwymlineBPFunctionLibrary::ConvertBytesToInput(const TArray<uint8>& InByte
 	TArray<float> floatData = CovertBytesToFloats(InBytes);
 
 	if (floatData.Num() < 6)
-		return false;
+	{
+		UE_LOG(LogTemp, Warning, TEXT("floatData is less than the expected amount %i out of 6"), floatData.Num());
+	}
+	//	return false;
 
 	OutInputData.Accelerometer.X = floatData[0];
 	OutInputData.Accelerometer.Y = floatData[1];
@@ -98,7 +101,10 @@ FString BytesToStringFixed(const uint8* In, int32 Count)
 bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData)
 {
 	if (InBytes.Num() <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Inbytes is empty"));
 		return false;
+	}
 
 	UE_LOG(LogTemp, Display, TEXT("TotalBytes: %i"), InBytes.Num());
 
