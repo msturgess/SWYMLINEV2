@@ -65,6 +65,8 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 	for (int i = 0; i < InData.Len(); i++)
 	{
+		UE_LOG(LogTemp, Display, TEXT("Input: %c"), InData[i]);
+
 		if (InData[i] == ',')
 		{
 			floatData.Add(std::stof(*curData));
@@ -126,7 +128,7 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 
 	FString byteAsStr = BytesToStringFixed(byteArr, sizeof(byteArr));
 
-	UE_LOG(LogTemp, Display, TEXT("%s"), *byteAsStr);
+	UE_LOG(LogTemp, Display, TEXT("Length: %i, Data: %s"), byteAsStr.Len(), *byteAsStr);
 
 	bool success = ConvertStringToInput(byteAsStr, OutInputData);
 
