@@ -36,8 +36,8 @@ bool USwymlineBPFunctionLibrary::ConvertBytesToInput(const TArray<uint8>& InByte
 	if (floatData.Num() < 6)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("floatData is less than the expected amount %i out of 6"), floatData.Num());
+		return false;
 	}
-	//	return false;
 
 	if (floatData.Num() > 0)
 		OutInputData.Accelerometer.X = floatData[0];
@@ -102,7 +102,7 @@ FString BytesToStringFixed(const uint8* In, int32 Count)
 		Fixed.AppendChar(c);
 	}
 
-	return Fixed;
+	return Broken;
 }
 
 bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData)
