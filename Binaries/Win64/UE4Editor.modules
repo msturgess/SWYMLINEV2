@@ -2,7 +2,7 @@
 	"BuildId": "14830424",
 	"Modules": 
 	{
-		"MyProject2": "UE4Editor-MyProject2-1235.dll",
-		"MyProject2Editor": "UE4Editor-MyProject2Editor-7983.dll"
+		"MyProject2": "UE4Editor-MyProject2.dll",
+		"MyProject2Editor": "UE4Editor-MyProject2Editor.dll"
 	}
 }
