@@ -39,13 +39,20 @@ bool USwymlineBPFunctionLibrary::ConvertBytesToInput(const TArray<uint8>& InByte
 	}
 	//	return false;
 
-	OutInputData.Accelerometer.X = floatData[0];
-	OutInputData.Accelerometer.Y = floatData[1];
-	OutInputData.Accelerometer.Z = floatData[2];
+	if (floatData.Num() > 0)
+		OutInputData.Accelerometer.X = floatData[0];
+	if (floatData.Num() > 1)
+		OutInputData.Accelerometer.Y = floatData[1];
+	if (floatData.Num() > 2)
+		OutInputData.Accelerometer.Z = floatData[2];
 
-	OutInputData.Gyrometer.X = floatData[3];
-	OutInputData.Gyrometer.Y = floatData[4];
-	OutInputData.Gyrometer.Z = floatData[5];
+	
+	if (floatData.Num() > 3)
+		OutInputData.Gyrometer.X = floatData[3];
+	if (floatData.Num() > 4)
+		OutInputData.Gyrometer.Y = floatData[4];
+	if (floatData.Num() > 5)
+		OutInputData.Gyrometer.Z = floatData[5];
 
 	return true;
 }
