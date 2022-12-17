@@ -115,7 +115,7 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 		return false;
 	}
 
-	UE_LOG(LogTemp, Display, TEXT("TotalBytes: %i"), InBytes.Num());
+	//UE_LOG(LogTemp, Display, TEXT("TotalBytes: %i"), InBytes.Num());
 
 	uint8* byteArr = new uint8[InBytes.Num()];
 	
@@ -124,15 +124,17 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 		byteArr[i] = InBytes[i];
 	}
 
-	UE_LOG(LogTemp, Display, TEXT("Allocated Byte Array"));
+	FString deviceOutput = FString::FromBlob(byteArr, sizeof(byteArr));
 
-	FString byteAsStr = BytesToStringFixed(byteArr, sizeof(byteArr));
+	UE_LOG(LogTemp, Display, TEXT("%s"), *deviceOutput);
 
-	UE_LOG(LogTemp, Display, TEXT("Length: %i, Data: %s"), byteAsStr.Len(), *byteAsStr);
+	//FString byteAsStr = BytesToStringFixed(byteArr, sizeof(byteArr));
 
-	bool success = ConvertStringToInput(byteAsStr, OutInputData);
+	//UE_LOG(LogTemp, Display, TEXT("Length: %i, Data: %s"), byteAsStr.Len(), *byteAsStr);
 
-	UE_LOG(LogTemp, Display, TEXT("Conversion okay"));
+	bool success = true;//= ConvertStringToInput(byteAsStr, OutInputData);
+
+	//UE_LOG(LogTemp, Display, TEXT("Conversion okay"));
 
 	delete byteArr;
 
