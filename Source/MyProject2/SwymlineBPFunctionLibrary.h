@@ -40,4 +40,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static TArray<uint8> ConvertStringToBytes(FString InString);
+
+	UFUNCTION(BlueprintCallable)
+	static FString ConvertByteStringToString(FString InString);
+
+	UFUNCTION(BlueprintCallable)
+	static FString ConvertByteStringsToString(const TArray<FString>& InStrings);
 };

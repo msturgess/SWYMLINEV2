@@ -69,12 +69,17 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 		if (InData[i] == ',')
 		{
-			floatData.Add(std::stof(*curData));
+			floatData.Add(curData.IsEmpty() ? 0.0f : std::stof(*curData));
 			curData = "";
 			continue;
 		}
 
-		curData += InData[i];
+		TCHAR& curChar = InData[i];
+		
+		if(!TChar<TCHAR>::IsDigit(curChar) && !TChar<TCHAR>::IsPunct(curChar))
+			continue;
+
+		curData += curChar;
 	}
 
 	floatData.Add(std::stof(*curData));
@@ -104,7 +109,19 @@ FString BytesToStringFixed(const uint8* In, int32 Count)
 		Fixed.AppendChar(c);
 	}
 
-	return Broken;
+	return Fixed;
+}
+
+FString ByteArrToString(const TArray<uint8>& InBytes)
+{
+	FString output;
+
+	for (int i = 0; i < InBytes.Num(); i++)
+	{
+		output += TCHAR(InBytes[i]);
+	}
+
+	return output;
 }
 
 bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& InBytes, FSwimInputData& OutInputData)
@@ -115,35 +132,29 @@ bool USwymlineBPFunctionLibrary::ConvertByteStringToInput(const TArray<uint8>& I
 		return false;
 	}
 
-	//UE_LOG(LogTemp, Display, TEXT("TotalBytes: %i"), InBytes.Num());
+	UE_LOG(LogTemp, Display, TEXT("TotalBytes: %i"), InBytes.Num());
 
-	uint8* byteArr = new uint8[InBytes.Num()];
-	
-	for (int i = 0; i < InBytes.Num(); i++)
-	{
-		byteArr[i] = InBytes[i];
-	}
+	//uint8* byteArr = new uint8[InBytes.Num()];
+	//
+	//for (int i = 0; i < InBytes.Num(); i++)
+	//{
+	//	byteArr[i] = InBytes[i];
+	//}
 
-	FString deviceOutput = FString::FromBlob(byteArr, sizeof(byteArr));
+	FString byteAsStr = ByteArrToString(InBytes);
 
-	UE_LOG(LogTemp, Display, TEXT("%s"), *deviceOutput);
+	UE_LOG(LogTemp, Display, TEXT("Length: %i, Data: %s"), byteAsStr.Len(), *byteAsStr);
 
-	//FString byteAsStr = BytesToStringFixed(byteArr, sizeof(byteArr));
+	bool success = ConvertStringToInput(byteAsStr, OutInputData);
 
-	//UE_LOG(LogTemp, Display, TEXT("Length: %i, Data: %s"), byteAsStr.Len(), *byteAsStr);
-
-	bool success = true;//= ConvertStringToInput(byteAsStr, OutInputData);
-
-	//UE_LOG(LogTemp, Display, TEXT("Conversion okay"));
-
-	delete byteArr;
+	UE_LOG(LogTemp, Display, TEXT("Conversion okay"));
 
 	return success;
 }
 
 TArray<uint8> USwymlineBPFunctionLibrary::ConvertStringToBytes(FString InString)
 {
-	int arrSize = sizeof(InString) * 4;
+	int arrSize = InString.Len();
 	uint8* byteArr = new uint8[arrSize];
 
 	TArray<uint8> outBytes;
@@ -161,4 +172,45 @@ TArray<uint8> USwymlineBPFunctionLibrary::ConvertStringToBytes(FString InString)
 
 	delete byteArr;
 	return outBytes;
+}
+
+FString USwymlineBPFunctionLibrary::ConvertByteStringToString(FString InString)
+{
+	TArray<uint8> bytes = ConvertStringToBytes(InString);
+
+	if (bytes.Num() <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Inbytes is empty"));
+		return FString();
+	}
+
+	//UE_LOG(LogTemp, Display, TEXT("TotalBytes: %i"), InBytes.Num());
+
+	uint8* byteArr = new uint8[bytes.Num()];
+
+	for (int i = 0; i < bytes.Num(); i++)
+	{
+		byteArr[i] = bytes[i];
+	}
+
+	FString byteAsStr = BytesToStringFixed(byteArr, sizeof(byteArr));
+
+	delete byteArr;
+
+	return byteAsStr;
+}
+
+FString USwymlineBPFunctionLibrary::ConvertByteStringsToString(const TArray<FString>& InStrings)
+{
+	FString output;
+
+	for (int i = 0; i < InStrings.Num(); i++) 
+	{
+		output += ConvertByteStringToString(InStrings[i]);
+		output += "  -  ";
+	}
+
+	UE_LOG(LogTemp, Display, TEXT("%s"), *output);
+
+	return output;
 }
