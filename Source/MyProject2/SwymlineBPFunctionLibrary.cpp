@@ -62,11 +62,25 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 	TArray<float> floatData;
 
 	FString curData = "";
+	bool hasNumber = false;
 
 	for (int i = 0; i < InData.Len(); i++)
 	{
 		if (InData[i] == ',')
 		{
+			hasNumber = false;
+
+			for (int j = 0; j < curData.Len(); j++)
+			{
+				if (!TChar<TCHAR>::IsDigit(curData[j]))
+					continue;
+				hasNumber = true;
+				break;
+			}
+
+			if (!hasNumber)
+				curData = "";
+
 			floatData.Add(curData.IsEmpty() ? 0.0f : std::stof(*curData));
 			curData = "";
 			continue;
@@ -79,6 +93,19 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 		curData += curChar;
 	}
+
+	hasNumber = false;
+
+	for (int i = 0; i < curData.Len(); i++)
+	{
+		if (!TChar<TCHAR>::IsDigit(curData[i]))
+			continue;
+		hasNumber = true;
+		break;
+	}
+
+	if (!hasNumber)
+		curData = "";
 
 	UE_LOG(LogTemp, Display, TEXT("LastInput: %s"), *curData);
 
