@@ -82,7 +82,7 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 		curData += curChar;
 	}
 
-	floatData.Add(std::stof(*curData));
+	floatData.Add(curData.IsEmpty() ? 0.0f : std::stof(*curData));
 
 	if (floatData.Num() < 6)
 		return false;
