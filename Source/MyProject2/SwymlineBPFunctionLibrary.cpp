@@ -65,8 +65,6 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 	for (int i = 0; i < InData.Len(); i++)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Input: %c"), InData[i]);
-
 		if (InData[i] == ',')
 		{
 			floatData.Add(curData.IsEmpty() ? 0.0f : std::stof(*curData));
@@ -81,6 +79,8 @@ bool USwymlineBPFunctionLibrary::ConvertStringToInput(FString InData, FSwimInput
 
 		curData += curChar;
 	}
+
+	UE_LOG(LogTemp, Display, TEXT("LastInput: %s"), *curData);
 
 	floatData.Add(curData.IsEmpty() ? 0.0f : std::stof(*curData));
 
